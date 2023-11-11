@@ -57,6 +57,11 @@
 {% endif %}
 
 
+{% if not query_search %}
+<header class="section-heading">
+<a href="{% url 'emotion' %}" >TRY OUT OUR NEW EMOTION BASED MUSIC RECOMMENDER</a>
+</header>
+{% endif %}
 
 <!-- All Songs -->
 {% if not query_search %}

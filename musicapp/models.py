@@ -9,6 +9,16 @@ class Song(models.Model):
               ('Hindi', 'Hindi'),
               ('English', 'English'),
           )
+    # mood_choice = (('angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral'))
+    mood_choice = (
+        ('happy', 'happy'),
+        ('sad', 'sad'),
+        ('angry', 'angry'),
+        ('disgust', 'disgust'),
+        ('fear', 'fear'),
+        ('surprise', 'surprise'),
+        ('neutral', 'neutral'),
+    )
 
     name = models.CharField(max_length=200)
     album = models.CharField(max_length=200)
@@ -17,6 +27,7 @@ class Song(models.Model):
     year = models.IntegerField()
     singer = models.CharField(max_length=200)
     song_file = models.FileField()
+    mood = models.CharField(max_length=20,choices=mood_choice,default='happy')
 
     def __str__(self):
         return self.name
