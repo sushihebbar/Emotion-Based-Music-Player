@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('<int:song_id>/', views.detail, name='detail'),
+    path('queue/', views.queue, name='queue'),
     path('mymusic/', views.mymusic, name='mymusic'),
     path('playlist/', views.playlist, name='playlist'),
     path('playlist/<str:playlist_name>/', views.playlist_songs, name='playlist_songs'),
@@ -13,10 +14,12 @@ urlpatterns = [
     path('recent/', views.recent, name='recent'),
     path('hindi_songs/', views.hindi_songs, name='hindi_songs'),
     path('english_songs/', views.english_songs, name='english_songs'),
-    path('play/<int:song_id>/', views.play_song, name='play_song'),
-    path('play_song/<int:song_id>/', views.play_song_index, name='play_song_index'),
+    path('play/<int:song_id>/', views.play, name='play_song'),
+    path('play_song/<int:song_id>/', views.play_song, name='play_song_index'),
     path('play_recent_song/<int:song_id>/', views.play_recent_song, name='play_recent_song'),
     path('emotion', views.emotion, name='emotion'),
+    path('play_next_song/', views.play_next_song, name='play_next_song'),
+    path('play_previous_song/', views.play_previous_song, name='play_previous_song'),
+    path('clear_queue/', views.clear_queue, name='clear_queue'),
     
-
 ]

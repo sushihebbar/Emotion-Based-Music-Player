@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+<h1>Current Queue</h1>
+<ul>
+    {% for song in queue %}
+        <li>{{ song.title }}</li>
+    {% endfor %}
+</ul>

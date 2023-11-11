@@ -65,6 +65,12 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 ]
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_COOKIE_SECURE = True  # Set to False if not using HTTPS in development
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_AGE = 1209600  # Set the session timeout in seconds (2 weeks in this example)
+
 ROOT_URLCONF = 'musicplayer.urls'
 
 TEMPLATES = [

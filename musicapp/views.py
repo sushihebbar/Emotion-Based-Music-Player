@@ -3,6 +3,7 @@ from .models import *
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 # from . import emotion
 # Create your views here.
 def index(request):
@@ -116,7 +117,7 @@ def english_songs(request):
     return render(request, 'musicapp/english_songs.html',context=context)
 
 @login_required(login_url='login')
-def play_song(request, song_id):
+def play(request, song_id):
     songs = Song.objects.filter(id=song_id).first()
     # Add data to recent database
     if list(Recent.objects.filter(song=songs,user=request.user).values()):
@@ -128,7 +129,7 @@ def play_song(request, song_id):
 
 
 @login_required(login_url='login')
-def play_song_index(request, song_id):
+def play_song(request, song_id):
     songs = Song.objects.filter(id=song_id).first()
     # Add data to recent database
     if list(Recent.objects.filter(song=songs,user=request.user).values()):
@@ -228,25 +229,28 @@ def recent(request):
     return render(request, 'musicapp/recent.html', context=context)
 
 
+def queue(request):
+    queue = request.session.get('queue', [])
+    return render(request, 'musicapp/queue.html', {'queue': queue})
+
 @login_required(login_url='login')
 def detail(request, song_id):
     songs = Song.objects.filter(id=song_id).first()
 
     # Add data to recent database
-    if list(Recent.objects.filter(song=songs,user=request.user).values()):
-        data = Recent.objects.filter(song=songs,user=request.user)
+    if list(Recent.objects.filter(song=songs, user=request.user).values()):
+        data = Recent.objects.filter(song=songs, user=request.user)
         data.delete()
-    data = Recent(song=songs,user=request.user)
+    data = Recent(song=songs, user=request.user)
     data.save()
 
-    #Last played song
+    # Last played song
     last_played_list = list(Recent.objects.values('song_id').order_by('-id'))
     if last_played_list:
         last_played_id = last_played_list[0]['song_id']
         last_played_song = Song.objects.get(id=last_played_id)
     else:
         last_played_song = Song.objects.get(id=7)
-
 
     playlists = Playlist.objects.filter(user=request.user).values('playlist_name').distinct
     is_favourite = Favourite.objects.filter(user=request.user).filter(song=song_id).values('is_fav')
@@ -260,23 +264,28 @@ def detail(request, song_id):
         elif 'add-fav' in request.POST:
             is_fav = True
             query = Favourite(user=request.user, song=songs, is_fav=is_fav)
-            print(f'query: {query}')
             query.save()
             messages.success(request, "Added to favorite!")
             return redirect('detail', song_id=song_id)
         elif 'rm-fav' in request.POST:
             is_fav = True
             query = Favourite.objects.filter(user=request.user, song=songs, is_fav=is_fav)
-            print(f'user: {request.user}')
-            print(f'song: {songs.id} - {songs}')
-            print(f'query: {query}')
             query.delete()
             messages.success(request, "Removed from favorite!")
             return redirect('detail', song_id=song_id)
+        elif 'add-to-queue' in request.POST:
+            # Add the current song to the queue logic here
+            if 'queue' not in request.session:
+                request.session['queue'] = []
+            request.session['queue'].append({'id': songs.id, 'title': songs.name})
+            messages.success(request, f'{songs.name} added to the queue!')
 
-    context = {'songs': songs, 'playlists': playlists, 'is_favourite': is_favourite,'last_played':last_played_song}
+    context = {'songs': songs, 'playlists': playlists, 'is_favourite': is_favourite, 'last_played': last_played_song,
+        'current_song_file': songs.song_file.url,
+        'current_song_image': songs.song_img.url,
+        'current_song_name': songs.name,
+        'current_song_album': songs.album,}
     return render(request, 'musicapp/detail.html', context=context)
-
 
 def mymusic(request):
     return render(request, 'musicapp/mymusic.html')
@@ -301,6 +310,56 @@ def playlist_songs(request, playlist_name):
 
     return render(request, 'musicapp/playlist_songs.html', context=context)
 
+def play_next_song(request):
+    current_song_id = request.session.get('current_song_id')
+
+    # Get the queue from the session
+    queue = request.session.get('queue', [])
+
+    # Find the index of the current song in the queue
+    current_song_index = next((index for index, song in enumerate(queue) if song['id'] == current_song_id), None)
+
+    # Check if the current song is in the queue and not the last song
+    if current_song_index is not None and current_song_index < len(queue) - 1:
+        # Get the next song ID from the queue
+        next_song_id = queue[current_song_index + 1]['id']
+
+        # Update the current song ID in the session
+        request.session['current_song_id'] = next_song_id
+
+        # Redirect to the detail view of the next song
+        return redirect('detail', song_id=next_song_id)
+    else:
+        # Handle the case where there is no next song (e.g., end of the queue)
+        # You can redirect to a specific page or handle it in a way that makes sense for your application.
+        return redirect('index')
+
+def play_previous_song(request):
+    queue = request.session.get('queue', [])
+    
+    if queue:
+        # Get the previous song from the queue
+        previous_song = queue.pop()  # Remove the last song from the queue
+        song_id = previous_song.get('id', None)
+
+        if song_id:
+            # Redirect to the detail view of the previous song
+            return redirect('detail', song_id=song_id)
+
+    # If the queue is empty or there's an issue, redirect to a suitable page
+    return redirect('index')  # You can change this to a different page if needed
+
+def clear_queue(request):
+    try:
+        # Using pop to remove 'queue' key, returns the value
+        queue = request.session.pop('queue', [])
+
+    except KeyError:
+        # Handle the case when 'queue' key is not present in the session
+        pass
+
+    # Redirect to a suitable page after clearing the queue
+    return redirect('index')  # You can change this to a different page if needed
 
 def favourite(request):
     songs = Song.objects.filter(favourite__user=request.user, favourite__is_fav=True).distinct()
