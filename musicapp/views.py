@@ -3,8 +3,7 @@ from .models import *
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
-
+from . import emotion
 # Create your views here.
 def index(request):
 
@@ -314,3 +313,7 @@ def favourite(request):
         messages.success(request, "Removed from favourite!")
     context = {'songs': songs}
     return render(request, 'musicapp/favourite.html', context=context)
+
+def emotion(request):
+    mood = emotion.emotion_cam()
+    
