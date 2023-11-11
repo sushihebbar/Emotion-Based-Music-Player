@@ -18,7 +18,9 @@ $ git clone https://github.com/sushihebbar/Emotion-Based-Music-Player.git
 $ python manage.py runserver
 ```
 > Go to localhost:8000/admin
+> 
 > username: admin
+> 
 > password: music_admin
 
 ---
