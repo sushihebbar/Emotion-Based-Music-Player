@@ -32,7 +32,32 @@
   <div class="or-seperator"><i>or</i></div>
   <form method="post">
     {% csrf_token %}
-    {{form|crispy}}
+    {% comment %} {{form|crispy}} {% endcomment %}
+    <div class="form-outline mb-4">
+      <label class="form-label" for="username">Username</label>
+      <input type="text" name="username" class="form-control form-control-lg" required autocomplete=True />
+    </div>
+
+    {% if form.username.errors %}
+    <div class="alert alert-danger" role="alert">
+        {% for error in form.username.errors %}
+            {{ error }}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="form-outline mb-4">
+      <label class="form-label" for="password">Password</label>
+      <input type="password" name="password" class="form-control form-control-lg" required />
+      
+    </div>
+    {% if form.password.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for error in form.password.errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+    {% endif %}
     <button class="btn btn-success btn-block" type="submit">Log In</button>
     <p></p>
     <!-- <p><a href="#" class="btn btn-danger btn-block" role="button"><i class="fa fa-google"></i> Sign up using Google</a></p> -->

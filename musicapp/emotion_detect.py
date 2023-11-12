@@ -49,7 +49,6 @@ def emotion_cam():
             emotion_detected.append(emotion)
             i = i + 1
         # Display the resulting frame
-        print(emotion_detected)
         cv2.imshow('Real-time Emotion Detection', frame)
         if i == 30:
             break

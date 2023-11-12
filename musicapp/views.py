@@ -375,7 +375,6 @@ def favourite(request):
 
 def emotion(request):
     mood = emotion_detect.emotion_cam()
-    print(mood)
     mood_songs = Song.objects.filter(mood = mood)
     
     last_played_list = list(Recent.objects.values('song_id').order_by('-id'))

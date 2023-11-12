@@ -31,7 +31,48 @@
     <div class="or-seperator"><i>or</i></div>
     <form method="post">
       {% csrf_token %}
-      {{form|crispy}}
+      {% comment %} {{form|crispy}} {% endcomment %}
+
+      <div class="form-outline mb-4">
+        <label class="form-label" for="username">Username</label>
+        <input type="text" name="username" class="form-control form-control-lg" required autocomplete=True />
+        
+      </div>
+
+      {% if form.username.errors %}
+      <div class="alert alert-danger" role="alert">
+          {% for error in form.username.errors %}
+              {{ error }}
+          {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="form-outline mb-4">
+        <label class="form-label" for="password1">Password</label>
+        <input type="password1" name="password1" class="form-control form-control-lg" required />
+      </div>
+
+      {% if form.password1.errors %}
+      <div class="alert alert-danger" role="alert">
+          {% for error in form.password1.errors %}
+              {{ error }}
+          {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="form-outline mb-4">
+        <label class="form-label" for="password2">Retype Password</label>
+        <input type="password2" name="password2" class="form-control form-control-lg" required />
+      </div>
+
+      {% if form.password2.errors %}
+      <div class="alert alert-danger" role="alert">
+          {% for error in form.password2.errors %}
+              {{ error }}
+          {% endfor %}
+      </div>
+      {% endif %}
+
       <button class="btn btn-success btn-block" type="submit">Sign Up</button>
     </form>
     <br>
