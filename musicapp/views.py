@@ -230,7 +230,7 @@ def recent(request):
 
 
 def queue(request):
-    queue = request.session.get('queue', [])
+    queue = request.session["queue"]
     return render(request, 'musicapp/queue.html', {'queue': queue})
 
 @login_required(login_url='login')
@@ -265,13 +265,13 @@ def detail(request, song_id):
             is_fav = True
             query = Favourite(user=request.user, song=songs, is_fav=is_fav)
             query.save()
-            messages.success(request, "Added to favorite!")
+            messages.success(request, "Added to liked songs!")
             return redirect('detail', song_id=song_id)
         elif 'rm-fav' in request.POST:
             is_fav = True
             query = Favourite.objects.filter(user=request.user, song=songs, is_fav=is_fav)
             query.delete()
-            messages.success(request, "Removed from favorite!")
+            messages.success(request, "Removed from liked songs!")
             return redirect('detail', song_id=song_id)
         elif 'add-to-queue' in request.POST:
             # Add the current song to the queue logic here
@@ -284,7 +284,7 @@ def detail(request, song_id):
         'current_song_file': songs.song_file.url,
         'current_song_image': songs.song_img.url,
         'current_song_name': songs.name,
-        'current_song_album': songs.album,}
+        'current_song_album': songs.album, 'queue':request.session['queue']}
     return render(request, 'musicapp/detail.html', context=context)
 
 def mymusic(request):

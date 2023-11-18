@@ -17,11 +17,11 @@ $ git clone https://github.com/sushihebbar/Emotion-Based-Music-Player.git
 ```shell
 $ python manage.py runserver
 ```
-> Go to localhost:8000/admin
+> Go to localhost:8000
 > 
-> username: admin
+> username: user
 > 
-> password: music_admin
+> password: music_user
 
 ---
 
@@ -33,6 +33,6 @@ $ python manage.py runserver
 ⚡️ Filter songs based on language and singer.\
 ⚡️ Create new playlist.\
 ⚡️ Add/Remove songs to/from playlist.\
-⚡️ Add/Remove songs to/from favourites.\
+⚡️ Add/Remove songs to/from liked songs.\
 ⚡️ Scroll through recently played/viewed songs.\
-⚡️ Explore songs through your personalized playlist and favourites.\
+⚡️ Explore songs through your personalized playlist and liked songs.\
