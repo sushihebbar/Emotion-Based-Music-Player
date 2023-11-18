@@ -284,7 +284,7 @@ def detail(request, song_id):
         'current_song_file': songs.song_file.url,
         'current_song_image': songs.song_img.url,
         'current_song_name': songs.name,
-        'current_song_album': songs.album, 'queue':request.session['queue']}
+        'current_song_album': songs.album, }
     return render(request, 'musicapp/detail.html', context=context)
 
 def mymusic(request):
