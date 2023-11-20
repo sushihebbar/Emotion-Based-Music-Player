@@ -230,6 +230,8 @@ def recent(request):
 
 
 def queue(request):
+    if 'queue' not in request.session:
+                request.session['queue'] = []
     queue = request.session["queue"]
     return render(request, 'musicapp/queue.html', {'queue': queue})
 

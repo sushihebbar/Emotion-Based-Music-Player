@@ -206,7 +206,7 @@
                 <audio controls="" controlsList="nodownload noremoteplayback" _autoplay="" name="media" style="margin-left: 20px;margin-bottom: 10px;width: 1145px;height:30px">
                     <source src="{{last_played.song_file.url}}" type="audio/mpeg">
                 </audio>
-
+                {% if request.user.is_authenticated %}
                 <form method="post" action="{% url 'queue' %}">
                   {% csrf_token %}
                   <button type="submit" class="btn btn-danger">View Queue</button>
@@ -215,6 +215,7 @@
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger">Clear Queue</button>
             </form>
+            {% endif %}
               </div>
           </div>
       </div>
