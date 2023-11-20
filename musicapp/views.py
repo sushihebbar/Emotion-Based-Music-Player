@@ -277,7 +277,8 @@ def detail(request, song_id):
             # Add the current song to the queue logic here
             if 'queue' not in request.session:
                 request.session['queue'] = []
-            request.session['queue'].append({'id': songs.id, 'title': songs.name})
+            
+            request.session['queue'].append({'id': songs.id, 'title': songs.name,'file':str(songs.song_file),'current_song_image': songs.song_img.url, 'last_played': str(last_played_song)})
             messages.success(request, f'{songs.name} added to the queue!')
 
     context = {'songs': songs, 'playlists': playlists, 'is_favourite': is_favourite, 'last_played': last_played_song,
