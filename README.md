@@ -26,13 +26,14 @@ $ python manage.py runserver
 ---
 
 ## Features 📋
-⚡️ SignUp and SignIn option.\
-⚡️ Google SignUp and SignIn option.\
-⚡️ Play song, view detailed information of song.\
-⚡️ Search songs.\
-⚡️ Filter songs based on language and singer.\
-⚡️ Create new playlist.\
-⚡️ Add/Remove songs to/from playlist.\
-⚡️ Add/Remove songs to/from liked songs.\
-⚡️ Scroll through recently played/viewed songs.\
-⚡️ Explore songs through your personalized playlist and liked songs.\
+SignUp and SignIn option.\
+Google SignUp and SignIn option.\
+Explore songs through your personalized playlist and liked songs.\
+Play song, view detailed information of song.\
+Scroll through recently played/viewed songs.\
+Add/Remove songs to/from liked songs.\
+Search songs.\
+Filter songs based on language and singer.\
+Create new playlist.\
+Add/Remove songs to/from playlist.\
+

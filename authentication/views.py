@@ -21,7 +21,7 @@ def login_request(request):
         return redirect('index')
     else:
         print(form.errors)
-        messages.error(request, 'Username or Password is Incorrect! ')
+        messages.success(request, 'Username or Password is Incorrect! ')
     return render(request, 'authentication/login.html', context=context)
 
 
