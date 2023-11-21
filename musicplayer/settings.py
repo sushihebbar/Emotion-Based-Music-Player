@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     
     # external
+    'crispy_bootstrap4',
     'crispy_forms',
     
     # apps

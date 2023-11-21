@@ -16,12 +16,17 @@ def login_request(request):
         password = form.cleaned_data.get('password')
         user = authenticate(request, username=username, password=password)
 
-        login(request, user)
-        messages.success(request, f"You are now logged in  as {user}")
-        return redirect('index')
+        if user is not None:
+            login(request, user)
+            messages.success(request, f"You are now logged in as {user}")
+            return redirect('index')
+        else:
+            messages.error(request, 'Username or Password is incorrect!')
     else:
+        # Display form errors if the form is invalid
         print(form.errors)
-        messages.success(request, 'Username or Password is Incorrect! ')
+        messages.error(request, 'Invalid username or password.')
+
     return render(request, 'authentication/login.html', context=context)
 
 
