@@ -29,11 +29,11 @@ def index(request):
             last_played_song = Song.objects.get(id=last_played_id)
         else:
             first_time = True
-            last_played_song = Song.objects.get(id=7)
+            last_played_song = Song.objects.get(id=8)
 
     else:
         first_time = True
-        last_played_song = Song.objects.get(id=7)
+        last_played_song = Song.objects.get(id=8)
 
     #Display all songs
     songs = Song.objects.all()
@@ -81,7 +81,7 @@ def hindi_songs(request):
         last_played_id = last_played_list[0]['song_id']
         last_played_song = Song.objects.get(id=last_played_id)
     else:
-        last_played_song = Song.objects.get(id=7)
+        last_played_song = Song.objects.get(id=8)
 
     query = request.GET.get('q')
 
@@ -104,7 +104,7 @@ def english_songs(request):
         last_played_id = last_played_list[0]['song_id']
         last_played_song = Song.objects.get(id=last_played_id)
     else:
-        last_played_song = Song.objects.get(id=7)
+        last_played_song = Song.objects.get(id=8)
 
     query = request.GET.get('q')
 
@@ -163,7 +163,7 @@ def all_songs(request):
             last_played_song = Song.objects.get(id=last_played_id)
     else:
         first_time = True
-        last_played_song = Song.objects.get(id=7)
+        last_played_song = Song.objects.get(id=8)
 
     
     # apply search filters
@@ -206,7 +206,7 @@ def recent(request):
         last_played_id = last_played_list[0]['song_id']
         last_played_song = Song.objects.get(id=last_played_id)
     else:
-        last_played_song = Song.objects.get(id=7)
+        last_played_song = Song.objects.get(id=8)
 
     #Display recent songs
     recent = list(Recent.objects.filter(user=request.user).values('song_id').order_by('-id'))
@@ -252,7 +252,7 @@ def detail(request, song_id):
         last_played_id = last_played_list[0]['song_id']
         last_played_song = Song.objects.get(id=last_played_id)
     else:
-        last_played_song = Song.objects.get(id=7)
+        last_played_song = Song.objects.get(id=8)
 
     playlists = Playlist.objects.filter(user=request.user).values('playlist_name').distinct
     is_favourite = Favourite.objects.filter(user=request.user).filter(song=song_id).values('is_fav')
@@ -385,7 +385,7 @@ def emotion(request):
         last_played_id = last_played_list[0]['song_id']
         last_played_song = Song.objects.get(id=last_played_id)
     else:
-        last_played_song = Song.objects.get(id=7)
+        last_played_song = Song.objects.get(id=8)
 
     query = request.GET.get('q')
 
